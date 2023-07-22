@@ -1,0 +1,130 @@
+<html>
+   <title>Buscador de Atributos</title>
+   <script>
+      const url = 'https://app.anymarket.com.br/rest/api/marketplaces/AMAZON/categories';
+      
+      
+        
+      // Cria uma tabela no HTML
+      const table = document.createElement('table');
+      
+      // Cria o cabeçalho
+      const row_header = document.createElement('tr');
+      const category = document.createElement('th');
+      const product_type = document.createElement('th');
+      const product_type_code = document.createElement('th');
+      
+      // Preenche o cabeçalho
+      category.textContent = 'Categoria';
+      product_type.textContent = 'Tipo de Produto';
+      product_type_code.textContent = 'Código do Tipo de Produto';
+      
+      // Inclui os valores na linha do cabeçalho
+      row_header.appendChild(category);
+      row_header.appendChild(product_type);
+      row_header.appendChild(product_type_code);
+      
+      table.appendChild(row_header);
+      
+      function fetchAndFill(category){
+      fetch(url + '/' + category, {
+      method: 'GET',
+      headers: {
+      'gumgatoken': '259078336L259059180E1687434115597C168743249375100O259059180.I'
+      }
+      })
+      .then(response => {
+      return response.json()
+      })
+      .then(data => {
+      data.childs.forEach(child => {
+      const row = document.createElement('tr');
+      const category_cell = document.createElement('td');
+      const product_type_cell = document.createElement('td');
+      const product_type_code_cell = document.createElement('td');
+      
+      category_cell.textContent = data.name;
+      product_type_cell.textContent = child.name;
+      product_type_code_cell.textContent = child.codeInMarketPlace.split('-').slice(-1).toString().toUpperCase();
+      
+      row.appendChild(category_cell);
+      row.appendChild(product_type_cell);
+      row.appendChild(product_type_code_cell);
+      
+      table.appendChild(row);
+      
+      document.body.appendChild(table);
+      });
+      
+      })
+      .catch(error => {
+      document.body.appendChild(root_categories_select);
+      console.error(error)
+      });
+      }
+      
+      const categories = ['FoodAndBeverages', 'PetSupplies', 'AutoAccessory', 'Baby', 'Beauty', 'Toys', 'Home', 'Wireless', 'Computers', 'HomeImprovement', 'CameraPhoto', 'LargeAppliances', 'CE', 'Office', 'Sports', 'manufacturer', 'Lighting', 'MusicalInstruments', 'Jewelry', 'Books', 'Furniture', 'Outdoors', 'TiresAndWheels', 'Shoes', 'Health', 'Clothing', 'Video', 'SoftwareVideoGames']
+      
+      categories.forEach(cat=> fetchAndFill(cat));
+      
+      // Adiciona a tabela no HTML
+      document.body.appendChild(table);
+   </script>
+   <body>
+      <h1>Buscador de Categorias Amazon</h1>
+      <p class="subtitle">developed by Bigode</p>
+   </body>
+   <style>
+      :root {
+      --grey: #8f8f8f;
+      --red: red;
+      }
+      table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	  align-self: center
+      }
+	  th{
+	  color: #ddd;
+	  background-color: #0F1111;
+	  padding: 4px 8px;
+	  }
+      tr:nth-child(even){
+      background-color: #a4dcf4;
+      }
+      tr:hover {
+      background-color: #77caee;
+      }
+      .styled-table th, td {
+      padding: 4px 8px;
+      }
+      a{
+      text-decoration: none;
+      font-size: 16px;
+      }
+      a:link {
+      color: #ffba50;
+      }
+      a:hover {
+      color: #ff8100;
+      }
+      h1 {
+      color: rgb(102, 102, 102);
+      text-align: center;
+      }
+      .subtitle{
+      font-size: 10px;
+      text-align: center;
+      margin-top: -15px;
+      color: var(--grey);
+      }
+      .count{
+      font-size: 10px;
+      color: var(--red);
+      }
+   </style>
+</html>

@@ -1,0 +1,383 @@
+<html>
+<title>Buscador de Imagens</title>
+
+<body>
+  <h1>Buscador de Imagens do MLB</h1>
+  <p class="subtitle">developed by Bigode</p>
+  </br>
+
+  <div class="container">
+    <textarea class="mlbs_input" type="text" placeholder="Cole aqui os mlbs separados por vírgulas ou por linhas"
+      id="mlbs_list"></textarea>
+    <input class="buttons" type="button" value="Buscar" id="mlbs_list_button">
+    <!-- <input class="buttons" type="button" value="Limpar" id="reload" onclick="{()=>window.location = '/'}"> -->
+  </div>
+
+  <p class="subtitle2">Para limpar a listagem é necessário recarregar a página</p>
+
+  <script>
+    const url = 'https://api.mercadolibre.com/items/';
+
+    // Cria uma tabela no HTML
+    const table = document.createElement('table');
+
+    // Cria o cabeçalho
+    const row_header = document.createElement('tr');
+    const mlb = document.createElement('th');
+    const sku = document.createElement('th');
+    const variation = document.createElement('th');
+    const variation_values = document.createElement('th');
+    const image1 = document.createElement('th');
+    const image2 = document.createElement('th');
+    const image3 = document.createElement('th');
+    const image4 = document.createElement('th');
+    const image5 = document.createElement('th');
+    const image6 = document.createElement('th');
+    const image7 = document.createElement('th');
+    const image8 = document.createElement('th');
+    const image9 = document.createElement('th');
+    const image10 = document.createElement('th');
+    const image11 = document.createElement('th');
+    const image12 = document.createElement('th');
+
+
+    // Preenche o cabeçalho
+    mlb.textContent = 'MLB';
+    sku.textContent = 'SKU';
+    variation.textContent = 'ID de Variação';
+    variation_values.textContent = 'Valores de Variação';
+    image1.textContent = 'Imagem 01';
+    image2.textContent = 'Imagem 02';
+    image3.textContent = 'Imagem 03';
+    image4.textContent = 'Imagem 04';
+    image5.textContent = 'Imagem 05';
+    image6.textContent = 'Imagem 06';
+    image7.textContent = 'Imagem 07';
+    image8.textContent = 'Imagem 08';
+    image9.textContent = 'Imagem 09';
+    image10.textContent = 'Imagem 10';
+    image11.textContent = 'Imagem 11';
+    image12.textContent = 'Imagem 12';
+
+    // Inclui os valores na linha do cabeçalho
+    row_header.appendChild(mlb);
+    row_header.appendChild(sku);
+    row_header.appendChild(variation);
+    row_header.appendChild(variation_values);
+    row_header.appendChild(image1);
+    row_header.appendChild(image2);
+    row_header.appendChild(image3);
+    row_header.appendChild(image4);
+    row_header.appendChild(image5);
+    row_header.appendChild(image6);
+    row_header.appendChild(image7);
+    row_header.appendChild(image8);
+    row_header.appendChild(image9);
+    row_header.appendChild(image10);
+    row_header.appendChild(image11);
+    row_header.appendChild(image12);
+
+    table.appendChild(row_header);
+
+    async function fetchAndFill(mlb) {
+      await fetch(url + '/' + mlb + '?include_attributes=all', {
+        method: 'GET'
+      })
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          if (!data) {
+            console.log('returned ', mlb, data);
+            return;
+          };
+          const attributes = data.attributes.reduce((acc, curr, index) => {
+            return { ...acc, [curr.id]: curr.value_name };
+          }, {});
+
+          const seller_sku = attributes ? attributes['SELLER_SKU'] || ' - ' : ' - ';
+
+          const images = data.pictures.reduce((acc, curr, index) => {
+            return [...acc, curr.url];
+          }, []);
+
+          // Caso nao haja variacao
+          if (!data.variations || data.variations.length === 0) {
+            const row = document.createElement('tr');
+            const mlb_cell = document.createElement('td');
+            const sku_cell = document.createElement('td');
+            const variation_cell = document.createElement('td');
+            const variation_values_cell = document.createElement('td');
+            const image_cell_1 = document.createElement('td');
+            const image_cell_2 = document.createElement('td');
+            const image_cell_3 = document.createElement('td');
+            const image_cell_4 = document.createElement('td');
+            const image_cell_5 = document.createElement('td');
+            const image_cell_6 = document.createElement('td');
+            const image_cell_7 = document.createElement('td');
+            const image_cell_8 = document.createElement('td');
+            const image_cell_9 = document.createElement('td');
+            const image_cell_10 = document.createElement('td');
+            const image_cell_11 = document.createElement('td');
+            const image_cell_12 = document.createElement('td');
+
+
+            mlb_cell.textContent = data.id;
+            sku_cell.textContent = seller_sku;
+            variation_cell.textContent = ' - ';
+            variation_values_cell.textContent = ' - ';
+            image_cell_1.textContent = images[0];
+            image_cell_2.textContent = images[1];
+            image_cell_3.textContent = images[2];
+            image_cell_4.textContent = images[3];
+            image_cell_5.textContent = images[4];
+            image_cell_6.textContent = images[5];
+            image_cell_7.textContent = images[6];
+            image_cell_8.textContent = images[7];
+            image_cell_9.textContent = images[8];
+            image_cell_10.textContent = images[9];
+            image_cell_11.textContent = images[10];
+            image_cell_12.textContent = images[11];
+
+
+            row.appendChild(mlb_cell);
+            row.appendChild(sku_cell);
+            row.appendChild(variation_cell);
+            row.appendChild(variation_values_cell);
+            row.appendChild(image_cell_1);
+            row.appendChild(image_cell_2);
+            row.appendChild(image_cell_3);
+            row.appendChild(image_cell_4);
+            row.appendChild(image_cell_5);
+            row.appendChild(image_cell_6);
+            row.appendChild(image_cell_7);
+            row.appendChild(image_cell_8);
+            row.appendChild(image_cell_9);
+            row.appendChild(image_cell_10);
+            row.appendChild(image_cell_11);
+            row.appendChild(image_cell_12);
+
+            table.appendChild(row);
+
+            document.body.appendChild(table);
+          }
+
+          if (data.variations && data.variations.length > 0) {
+            data.variations.forEach(variation => {
+              const row = document.createElement('tr');
+              const mlb_cell = document.createElement('td');
+              const sku_cell = document.createElement('td');
+              const variation_cell = document.createElement('td');
+              const variation_values_cell = document.createElement('td');
+              const image_cell_1 = document.createElement('td');
+              const image_cell_2 = document.createElement('td');
+              const image_cell_3 = document.createElement('td');
+              const image_cell_4 = document.createElement('td');
+              const image_cell_5 = document.createElement('td');
+              const image_cell_6 = document.createElement('td');
+              const image_cell_7 = document.createElement('td');
+              const image_cell_8 = document.createElement('td');
+              const image_cell_9 = document.createElement('td');
+              const image_cell_10 = document.createElement('td');
+              const image_cell_11 = document.createElement('td');
+              const image_cell_12 = document.createElement('td');
+
+              const attribute_combinations = variation.attribute_combinations.reduce((acc, curr, index) => {
+                return { ...acc, [curr.id]: curr.value_name };
+              }, {});
+
+              const combinations_sku = attribute_combinations['SELLER_SKU'];
+
+              const attributes_variation = variation.attributes.reduce((acc, curr, index) => {
+                return { ...acc, [curr.id]: curr.value_name };
+              }, {});
+
+              const variations_sku = attributes_variation['SELLER_SKU'];
+
+              const variation_sku = variations_sku ? variations_sku : combinations_sku ? combinations_sku : seller_sku ? seller_sku : ' - ';
+              let vari = '';
+              const variations = Object.keys(attribute_combinations).forEach(key => {
+                vari = vari + ' / ' + attribute_combinations[key]
+              })
+
+              mlb_cell.textContent = data.id;
+              sku_cell.textContent = variation_sku;
+              variation_cell.textContent = variation.id;
+              variation_values_cell.textContent = vari.slice(3);
+              image_cell_1.textContent = images[0];
+              image_cell_2.textContent = images[1];
+              image_cell_3.textContent = images[2];
+              image_cell_4.textContent = images[3];
+              image_cell_5.textContent = images[4];
+              image_cell_6.textContent = images[5];
+              image_cell_7.textContent = images[6];
+              image_cell_8.textContent = images[7];
+              image_cell_9.textContent = images[8];
+              image_cell_10.textContent = images[9];
+              image_cell_11.textContent = images[10];
+              image_cell_12.textContent = images[11];
+
+              row.appendChild(mlb_cell);
+              row.appendChild(sku_cell);
+              row.appendChild(variation_cell);
+              row.appendChild(variation_values_cell);
+              row.appendChild(image_cell_1);
+              row.appendChild(image_cell_2);
+              row.appendChild(image_cell_3);
+              row.appendChild(image_cell_4);
+              row.appendChild(image_cell_5);
+              row.appendChild(image_cell_6);
+              row.appendChild(image_cell_7);
+              row.appendChild(image_cell_8);
+              row.appendChild(image_cell_9);
+              row.appendChild(image_cell_10);
+              row.appendChild(image_cell_11);
+              row.appendChild(image_cell_12);
+
+              table.appendChild(row);
+
+              document.body.appendChild(table);
+            });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+
+
+    document.getElementById("mlbs_list_button").addEventListener('click', event => {
+      const input_value = document.getElementById("mlbs_list").value
+      let mlbs_list = input_value.includes(',') ? input_value.split(',') : input_value.split('\n');
+      console.log(mlbs_list);
+      mlbs_list.forEach(async (mlb) => await fetchAndFill(mlb));
+    });
+
+    // Adiciona a tabela no HTML
+    document.body.appendChild(table);
+  </script>
+</body>
+<style>
+  :root {
+    --grey: #8f8f8f;
+    --red: red;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    align-self: center
+  }
+
+  th {
+    color: #ddd;
+    background-color: #0F1111;
+    padding: 4px 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #a4dcf4;
+  }
+
+  tr:hover {
+    background-color: #77caee;
+  }
+
+  .styled-table th,
+  td {
+    padding: 4px 8px;
+  }
+
+  a {
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  a:link {
+    color: #ffba50;
+  }
+
+  a:hover {
+    color: #ff8100;
+  }
+
+  h1 {
+    color: rgb(102, 102, 102);
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 10px;
+    text-align: center;
+    margin-top: -15px;
+    color: var(--grey);
+  }
+
+  .subtitle2 {
+    font-size: 12px;
+    text-align: center;
+    color: var(--grey);
+  }
+
+  .container {
+    display: flex;
+  }
+
+  .mlbs_input {
+    resize: vertical;
+    background-color: #f5f7ff9f;
+    border-radius: 3px;
+    height: 15vh;
+    width: 80vw;
+    margin-right: 4px;
+  }
+
+  .buttons {
+    background-color: #699ee4;
+    border-width: 0px;
+    border-radius: 3px;
+    padding: 4px 6px;
+    box-shadow: 1px 1px #000099;
+    align-self: self-start;
+  }
+
+  .buttons:hover {
+    animation: hover_button 500ms forwards;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes hover_button {
+    0% {
+      box-shadow: 0px 0px
+    }
+
+    100% {
+      box-shadow: 2px 2px #000099
+    }
+  }
+
+  .buttons:focus {
+    box-shadow: 2px 2px #000099;
+    animation: focus_button 250ms alternate;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes focus_button {
+    0% {
+      background-color: var(--blue);
+      box-shadow: 2px 2px #000099;
+    }
+
+    100% {
+      background-color: #5576a1;
+      box-shadow: 0px 0px;
+    }
+  }
+</style>
+
+</html>

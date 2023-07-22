@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <title>Oders formatter</title>
+  <body>
+
+  <h1>Multiple Oders formatter</h1>
+  <p class="subtitle">developed by Bigode</p>
+
+
+  <div class="main">
+    <div class="format_input">
+      <p><label for="orders">Insira os Pedidos:</label></p>
+      <textarea id="orders" name="orders" rows="5" cols="50" placeholder="Insira os pedidos separados por linha"></textarea>
+    </div>
+
+    <div class="format_button">
+      <input class="buttons" type="button" value="Limpar Campos" id="clear">
+      <input class="buttons" type="button" value="Formatar" id="format">
+      <!-- <input class="buttons" type="button" value="Formatar e Limpar" id="format_and_clean" disabled> -->
+      <input class="buttons" type="button" value="Copiar Resultado" id="copy">
+    </div>
+
+    <script>
+      //Formatter - first splits the string and then concats "," adding " to both beginning and end of the string
+      document.getElementById("format").addEventListener('click', event => {
+        let formatted = `'` + document.getElementById("orders").value.split('\n').join(`','`) + `'`;
+        document.getElementById("formatted_orders").innerHTML = formatted;
+      });
+
+      //Formatter and regex - first splits the string and then concats "," adding " to both beginning and end of the string
+      //lastly, removes spaces or other caracthers that are not letters, numbers or "-/_"
+      // document.getElementById("format_and_clean").addEventListener('click', event => {
+      //   let formatted = '"' + document.getElementById("orders").value.split('\n').join('","') + '"';
+      //   let cleaned_and_formatted = 'Em desenvolvimento'; //formatted.match( /\d+/g );
+      //   document.getElementById("formatted_orders").innerHTML = cleaned_and_formatted;
+      // });
+
+      //Copy to Clipboard - Copies the value on formatted_orders to clipboard
+      document.getElementById('copy').addEventListener('click', event => {
+        navigator.clipboard.writeText(document.getElementById('formatted_orders').value)
+      });
+
+      //Clear Fields- Clears all fields
+      document.getElementById('clear').addEventListener('click', event => {
+        document.getElementById("formatted_orders").innerHTML = '';
+        document.getElementById("orders").value = '';
+      });
+
+      // function applyHighlights(text) {
+      //   return text
+      //     .replace(/\n$/g, '\n\n')
+      //     .replace(/[A-Z].*?\b/g, '<mark></mark>');
+      // }
+
+      // function handleInput() {
+      //   var text = $textarea.val();
+      //   var highlightedText = applyHighlights(text);
+      //   $highlights.html(highlightedText);
+      // }
+    </script>
+
+    <div class="format_input">
+      <p><label for="formatted_orders">Pedidos Formatados:</label></p>
+      <textarea id="formatted_orders" name="formatted_orders" rows="5" cols="50" readonly placeholder='Clique em "Formatar" para gerar o texto formatado'></textarea>
+    </div>
+
+  </div>
+
+  </body>
+</html>
+
+<style>
+  :root {
+  --blue: #699ee4;
+  --grey: #8f8f8f;
+  }
+
+  * {
+    font-family: verdana;
+    background-color: #202020;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 4px #fff0c5;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background:#88bbff;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1666cf;
+    cursor: pointer;
+  }
+
+  /* body {
+    background-color: rgb(255, 228, 153);
+  } */
+
+  h1 {
+    color: rgb(102, 102, 102);
+    text-align: center;
+  }
+
+  .subtitle{
+    font-size: 10px;
+    text-align: center;
+    margin-top: -15px;
+    color: var(--grey);
+  }
+
+  .buttons{
+    background-color: var(--blue);
+    border-width: 0px;
+    border-radius: 3px;
+    padding: 4px 6px;
+    box-shadow: 1px 1px #000099;
+  }
+
+  .buttons:hover{
+    animation: hover_button 500ms forwards;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes hover_button {
+    0% {box-shadow: 0px 0px}
+    100% {box-shadow: 2px 2px #000099}
+  }
+
+  .buttons:focus{
+    box-shadow: 2px 2px #000099;
+    animation: focus_button 250ms alternate;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes focus_button {
+    0% {
+      background-color: var(--blue);
+      box-shadow: 2px 2px #000099;
+    }
+    100% {
+      background-color: #5576a1;
+      box-shadow: 0px 0px;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    background-color: #dcf8ff9f;
+    border-radius: 3px;
+  }
+
+  .main {
+    display: flex;
+    color:  var(--grey);
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .format_input {
+    display: block;
+  }
+  .format_button {
+    display: block;
+  }
+  .format_output {
+    display: block;
+  }
+</style>
