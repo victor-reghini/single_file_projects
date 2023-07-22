@@ -7,16 +7,16 @@
   </br>
 
   <div class="container">
-    <textarea class="mlbs_input" type="text" placeholder="Cole aqui os mlbs separados por vírgula ou por linha"
+    <textarea class="mlbs_input" type="text" placeholder="Cole aqui os títulos separados por vírgula ou por linha"
       id="text_list"></textarea>
     <input class="buttons" type="button" value="Formatar" id="text_list_button">
   </div>
 
-  <p class="subtitle2">Para limpar a listagem é necessário recarregar a página</p>
+  <p class="subtitle2">Para limpar a listagem é necessário recarregar a página.</p>
 
   <script>
-  
- 
+
+
 
     // Cria uma tabela no HTML
     const table = document.createElement('table');
@@ -30,10 +30,10 @@
     const aspecto = document.createElement('th');
     const diametro = document.createElement('th');
     const carga = document.createElement('th');
-	
+
 
     // Preenche o cabeçalho
-    index.textContent = '';
+    index.textContent = ' ';
     texto.textContent = 'Texto';
     pneu.textContent = 'Modelo';
     largura.textContent = 'Largura';
@@ -52,56 +52,46 @@
 
     table.appendChild(row_header);
 
-    function formatTires(tire, index){
-		const regex = /(\d+)\/(\d+)R(\d+) (\d+)/;
-		const match = tire.match(regex);
+    function formatTires(tire, index) {
+      const regex = /(\d+)\/(\d+)R(\d+) (\d+)/;
+      const match = tire.match(regex);
 
-		if (match) {
-		  const valor1 = match[1]; // 165
-		  const valor2 = match[2]; // 70
-		  const valor3 = match[3]; // 14
-		  const valor4 = match[4]; // 85
-		  
-		} else {
-		  console.log("Não foi possível extrair os valores.");
-		}
-
-		const row = document.createElement('tr');
-		const index_cell = document.createElement('td');
-		const text_cell = document.createElement('td');
-		const model_cell = document.createElement('td');
-		const width_cell = document.createElement('td');
-		const aspect_cell = document.createElement('td');
-		const load_cell = document.createElement('td');
-		const diameter_cell = document.createElement('td');
+      const row = document.createElement('tr');
+      const index_cell = document.createElement('td');
+      const text_cell = document.createElement('td');
+      const model_cell = document.createElement('td');
+      const width_cell = document.createElement('td');
+      const aspect_cell = document.createElement('td');
+      const load_cell = document.createElement('td');
+      const diameter_cell = document.createElement('td');
 
 
-		index_cell.textContent = index + 1;
-		text_cell.textContent = tire;
-		model_cell.textContent = match ? match[0] : ' - ';
-		width_cell.textContent = match ? match[1] : ' - ';
-		aspect_cell.textContent = match ? match[2] : ' - ';
-		load_cell.textContent = match ? match[4] : ' - ';
-		diameter_cell.textContent = match ? match[3] : ' - ';
-		
+      index_cell.textContent = index + 1;
+      text_cell.textContent = tire;
+      model_cell.textContent = match ? match[0] : ' - ';
+      width_cell.textContent = match ? match[1] : ' - ';
+      aspect_cell.textContent = match ? match[2] : ' - ';
+      load_cell.textContent = match ? match[4] : ' - ';
+      diameter_cell.textContent = match ? match[3] : ' - ';
 
-		row.appendChild(index_cell);
-		row.appendChild(text_cell);
-		row.appendChild(model_cell);
-		row.appendChild(width_cell);
-		row.appendChild(aspect_cell);
-		row.appendChild(diameter_cell);
-		row.appendChild(load_cell);
-		table.appendChild(row);
-		document.body.appendChild(table);
-	}
+
+      row.appendChild(index_cell);
+      row.appendChild(text_cell);
+      row.appendChild(model_cell);
+      row.appendChild(width_cell);
+      row.appendChild(aspect_cell);
+      row.appendChild(diameter_cell);
+      row.appendChild(load_cell);
+      table.appendChild(row);
+      document.body.appendChild(table);
+    }
 
 
 
     document.getElementById("text_list_button").addEventListener('click', event => {
       const input_value = document.getElementById("text_list").value
       let text_list = input_value.split('\n');
-	  console.log('tamanho',text_list.length);
+      console.log('tamanho', text_list.length);
 
       text_list.forEach((text, index) => formatTires(text, index));
     });
