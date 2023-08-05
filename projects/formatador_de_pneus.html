@@ -1,13 +1,14 @@
 <html>
-<title>Formatador de Pneus</title>
+<title>Decodificador de Pneus</title>
 
 <body>
-  <h1>Formatador de código de Pneus</h1>
+  <h1>Leitor de código de Pneus</h1>
   <p class="subtitle">developed by Bigode</p>
   </br>
 
   <div class="container">
-    <textarea class="mlbs_input" type="text" placeholder="Cole aqui os títulos separados por vírgula ou por linha"
+    <textarea class="mlbs_input" type="text"
+      placeholder="Cole aqui os títulos separados por linha. Exemplo de formatos suportados (000/00R00 000/000H) ou (000/00R00 000ZR)"
       id="text_list"></textarea>
     <input class="buttons" type="button" value="Formatar" id="text_list_button">
   </div>
@@ -15,21 +16,21 @@
   <p class="subtitle2">Para limpar a listagem é necessário recarregar a página.</p>
 
   <script>
-
-
-
     // Cria uma tabela no HTML
     const table = document.createElement('table');
 
     // Cria o cabeçalho
     const row_header = document.createElement('tr');
+
     const index = document.createElement('th');
     const texto = document.createElement('th');
     const pneu = document.createElement('th');
     const largura = document.createElement('th');
     const aspecto = document.createElement('th');
+    const construction = document.createElement('th');
     const diametro = document.createElement('th');
     const carga = document.createElement('th');
+    const speed = document.createElement('th');
 
 
     // Preenche o cabeçalho
@@ -38,8 +39,11 @@
     pneu.textContent = 'Modelo';
     largura.textContent = 'Largura';
     aspecto.textContent = 'Relação do Aspecto';
+    construction.textContent = 'Tipo de Construção';
     diametro.textContent = 'Diâmetro';
     carga.textContent = 'Carga';
+    speed.textContent = 'Taxa de Velocidade';
+
 
     // Inclui os valores na linha do cabeçalho
     row_header.appendChild(index);
@@ -47,14 +51,18 @@
     row_header.appendChild(pneu);
     row_header.appendChild(largura);
     row_header.appendChild(aspecto);
+    row_header.appendChild(construction);
     row_header.appendChild(diametro);
     row_header.appendChild(carga);
+    row_header.appendChild(speed);
 
     table.appendChild(row_header);
 
     function formatTires(tire, index) {
-      const regex = /(\d+)\/(\d+)R(\d+) (\d+)/;
-      const match = tire.match(regex);
+      // regex: 3 números, /, um ou mais números, uma ou mais letras em maiúsculo, um ou mais números, (um ou mais números ou um ou mais números, /, um ou mais números), uma ou mais letras em maiúsculo
+      const regex = new RegExp('([0-9]{3})\/([0-9]+)([A-Z]+)([0-9]+) ([0-9]+|[0-9]+\/[0-9]+)([A-Z]+)');
+      const match = tire.toUpperCase().match(regex);
+
 
       const row = document.createElement('tr');
       const index_cell = document.createElement('td');
@@ -62,8 +70,10 @@
       const model_cell = document.createElement('td');
       const width_cell = document.createElement('td');
       const aspect_cell = document.createElement('td');
+      const construction_cell = document.createElement('td');
       const load_cell = document.createElement('td');
       const diameter_cell = document.createElement('td');
+      const speed_cell = document.createElement('td');
 
 
       index_cell.textContent = index + 1;
@@ -71,8 +81,10 @@
       model_cell.textContent = match ? match[0] : ' - ';
       width_cell.textContent = match ? match[1] : ' - ';
       aspect_cell.textContent = match ? match[2] : ' - ';
-      load_cell.textContent = match ? match[4] : ' - ';
-      diameter_cell.textContent = match ? match[3] : ' - ';
+      construction_cell.textContent = match ? match[3] : ' - ';
+      diameter_cell.textContent = match ? match[4] : ' - ';
+      load_cell.textContent = match ? match[5] : ' - ';
+      speed_cell.textContent = match ? match[6] : ' - ';
 
 
       row.appendChild(index_cell);
@@ -80,18 +92,21 @@
       row.appendChild(model_cell);
       row.appendChild(width_cell);
       row.appendChild(aspect_cell);
+      row.appendChild(construction_cell);
       row.appendChild(diameter_cell);
       row.appendChild(load_cell);
+      row.appendChild(speed_cell);
+
       table.appendChild(row);
+
       document.body.appendChild(table);
     }
 
 
-
+    // Aciona o formatador
     document.getElementById("text_list_button").addEventListener('click', event => {
       const input_value = document.getElementById("text_list").value
       let text_list = input_value.split('\n');
-      console.log('tamanho', text_list.length);
 
       text_list.forEach((text, index) => formatTires(text, index));
     });
@@ -106,6 +121,7 @@
     --red: red;
   }
 
+  /* Table Style */
   table {
     border-collapse: collapse;
     margin: 25px 0;
@@ -135,6 +151,7 @@
     padding: 4px 8px;
   }
 
+
   a {
     text-decoration: none;
     font-size: 16px;
@@ -147,6 +164,7 @@
   a:hover {
     color: #ff8100;
   }
+
 
   h1 {
     color: rgb(102, 102, 102);
