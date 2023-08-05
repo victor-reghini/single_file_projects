@@ -1,0 +1,112 @@
+:root {
+  --black: #0e0e0e;
+  --darker_grey: #303030;
+  --dark_grey: #353535;
+  --medium_grey: #5e5e5e;
+  --grey: #818181;
+  --light_grey: #c0c0c0;
+  --dark_orange: #ff8100;
+  --orange: #c57600;
+  --light-orange: #ffba50;
+  --white: #f1f1f1;
+}
+
+* {
+  background-color: #2c2c2c;
+  color: var(--light_grey);
+  font-family: sans-serif;
+}
+
+/* Scrollbar style */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: var(--medium_grey);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark_grey);
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+/* Sidenav Style */
+.sidenav {
+  height: 100%;
+  width: 300px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: var(--black);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-top: 20px;
+}
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: medium;
+  color: var(--grey);
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.sidenav a:hover {
+  color: var(--white);
+}
+
+/* Main content */
+.main {
+  display: block;
+  margin-left: 300px;
+  font-size: medium;
+  padding: 15px 20px;
+}
+
+/* Project Block Info */
+.project_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: start;
+  margin: 24px 0;
+}
+h3 {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+h3 a {
+  margin: 0;
+  font-size: larger;
+  color: var(--light_grey);
+}
+p,
+a {
+  font-size: smaller;
+  margin: 4px 0;
+}
+a {
+  text-decoration: none;
+  color: var(--orange);
+}
+a:hover {
+  color: var(--dark_orange);
+}
+img {
+  margin-top: 4px;
+  width: 50vw;
+}

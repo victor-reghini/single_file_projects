@@ -1,0 +1,212 @@
+<html>
+   <title>Buscador de Atributos</title>
+   <script>
+      //console.log(window.location.search);
+      const mlb = window.location.search;
+      // Implementar: atributos obrigatórios (https://developers.mercadolivre.com.br/pt_br/atributos) - https://api.mercadolibre.com/categories/$CATEGORY_ID/technical_specs/input
+
+      const url = 'https://api.mercadolibre.com/categories/' + mlb.substr(1).toUpperCase() + '?withAttributes=true';
+
+	  const root_categories_select = document.createElement('select');
+	  root_categories_select.id = 'root_categories_select';
+
+	  const placeholder = document.createElement('option');
+	  placeholder.textContent = 'Categorias Raiz';
+	  root_categories_select.appendChild(placeholder);
+
+	  // Redireciona o site para uma categoria raiz
+	  root_categories_select.onchange = () => {
+	  console.log(root_categories_select.value);
+	  let mlb = '?' + root_categories_select.value || `?`;
+	  window.location.search = mlb.toString();
+	  };
+
+	  fetch('https://api.mercadolibre.com/sites/MLB/categories')
+       .then(response => {
+      	console.log(response);
+      	return response.json()
+      })
+       .then(data => {
+		data.forEach(category => {
+			const root_categories_option = document.createElement('option');
+			//const root_categories_links = document.createElement('a');
+
+			root_categories_option.textContent = category.name;
+			root_categories_option.value = category.id;
+
+			root_categories_select.appendChild(root_categories_option);
+		 });
+	  });
+
+	  // Busca pela categoria e cria os elementos relacionados à ela
+      fetch(url)
+       .then(response => {
+      	console.log(response);
+      	return response.json()
+      })
+       .then(data => {
+	  //total de itens na categoria
+      const category_product_count = document.createElement('p');
+	  category_product_count.class = 'count';
+	  category_product_count.textContent = 'total de itens na categoria: ' + data.total_items_in_this_category;
+
+      // Cria o elemento que exibirá o nome da categoria
+      const category_name = document.createElement('h2');
+      category_name.textContent = data.name;
+
+      // Cria o elemento que exibirá a árvore da categoria
+      const category_tree = document.createElement('h3');
+	  category_tree.appendChild(root_categories_select);
+
+      data.path_from_root.forEach(category => {
+        const category_breadcrumb = document.createElement('a');
+
+        category_breadcrumb.textContent = ' / ' + category.name;
+        category_breadcrumb.href = '?' + category.id;
+
+        category_tree.appendChild(category_breadcrumb);
+      });
+
+
+      // Cria o elemento que exibirá a árvore de categorias filhas da categoria
+      const category_children_tree = document.createElement('h3');
+      data.children_categories.forEach(category => {
+        const category_breadcrumb = document.createElement('a');
+
+        category_breadcrumb.textContent = category.name + ' - ';
+        category_breadcrumb.href = '?' + category.id;
+
+        category_children_tree.appendChild(category_breadcrumb);
+      });
+
+      // Cria uma tabela no HTML e preenche com os nomes dos atributos
+      const table = document.createElement('table');
+
+      // Cria o cabeçalho
+      const row_header = document.createElement('tr');
+      const name_header_cell = document.createElement('th');
+      const relevance_header_cell = document.createElement('th');
+      const hint_header_cell = document.createElement('th');
+      const values_header_cell = document.createElement('th');
+
+      // Preenche o cabeçalho
+      name_header_cell.textContent = 'Atributo';
+      relevance_header_cell.textContent = 'Relevância';
+      hint_header_cell.textContent = 'Dica/Descrição';
+      values_header_cell.textContent = 'Valores';
+
+      // Inclui os valores na linha do cabeçalho
+      row_header.appendChild(name_header_cell);
+      row_header.appendChild(relevance_header_cell);
+      row_header.appendChild(hint_header_cell);
+      row_header.appendChild(values_header_cell);
+
+      table.appendChild(row_header);
+
+      data.attributes.forEach(attribute => {
+        const row = document.createElement('tr');
+        const name_cell = document.createElement('td');
+        const relevance_cell = document.createElement('td');
+        const hint_cell = document.createElement('td');
+        const values_cell = document.createElement('td');
+
+        name_cell.textContent = attribute.name;
+        relevance_cell.textContent = attribute.relevance;
+        hint_cell.textContent = attribute.hint || ' - ';
+        // listagem de valores do atributo
+		if (attribute.id == 'GTIN') {
+		  const link_validator = document.createElement('a');
+		  link_validator.href = 'https://www.mercadolivre.com.br/validador-codigos-universais';
+		  link_validator.textContent = 'Validador de Códigos Universais';
+		  values_cell.appendChild(link_validator);
+		} else if (attribute.values) {
+		  let values = '';
+      	  attribute.values.forEach(value => {
+      	  	values = values + value.name + ' / ';
+      	  });
+		  values_cell.textContent = values;
+        } else {
+		  values_cell.textContent = ' - ';
+        }
+
+        row.appendChild(name_cell);
+        row.appendChild(relevance_cell);
+        row.appendChild(hint_cell);
+        row.appendChild(values_cell);
+
+        table.appendChild(row);
+      });
+
+      // Adiciona a tabela no HTML
+      document.body.appendChild(category_tree);
+      document.body.appendChild(category_name);
+      document.body.appendChild(category_product_count);
+      document.body.appendChild(category_children_tree);
+      document.body.appendChild(table);
+       })
+       .catch(error => {
+         document.body.appendChild(root_categories_select);
+	     console.error(error)
+	   });
+   </script>
+   <body>
+      <h1>Buscador de Atributos Mercado Livre</h1>
+      <p class="subtitle">developed by Bigode</p>
+      <input type="text" id="search" placeholder="Digite o código da categoria">
+      <input class="buttons" type="button" value="Pesquisar" id="search_button">
+      <script>
+		// Realiza a busca com o valor preenchido no campo de pesquisa
+         document.getElementById("search_button").addEventListener('click', event => {
+         let mlb = '?' + document.getElementById("search").value || `?`;
+         window.location.search = mlb.toString();
+         });
+      </script>
+   </body>
+   <style>
+	  :root {
+	  --grey: #8f8f8f;
+	  --red: red;
+	  }
+      table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+      tr:nth-child(even){
+      background-color: #fff2de;
+      }
+      tr:hover {
+      background-color: #ffe3b8;
+      }
+      .styled-table th, td {
+      padding: 4px 8px;
+      }
+      a{
+      text-decoration: none;
+      font-size: 16px;
+      }
+      a:link {
+      color: #ffba50;
+      }
+      a:hover {
+      color: #ff8100;
+      }
+	  h1 {
+		color: rgb(102, 102, 102);
+		text-align: center;
+	  }
+      .subtitle{
+      font-size: 10px;
+      text-align: center;
+      margin-top: -15px;
+      color: var(--grey);
+      }
+	  .count{
+      font-size: 10px;
+      color: var(--red);
+	  }
+   </style>
+</html>

@@ -47,7 +47,7 @@
     table.appendChild(row_header);
 
     function fetchAndFill(mlb) {
-      fetch(url + '/' + mlb + '?include_attributes=all', {
+      fetch(url + mlb + '?include_attributes=all', {
         method: 'GET'
       })
         .then(response => {

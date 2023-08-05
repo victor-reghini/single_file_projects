@@ -23,15 +23,21 @@
     // Cria o cabeçalho
     const row_header = document.createElement('tr');
     const id = document.createElement('th');
+    const invoice = document.createElement('th');
+    const document_number = document.createElement('th');
     const url = document.createElement('th');
 
 
     // Preenche o cabeçalho
-    id.textContent = 'id';
-    url.textContent = 'url';
+    id.textContent = 'ID do Pedido';
+    invoice.textContent = 'Nota Fiscal';
+    document_number.textContent = 'CNPJ do Remetente';
+    url.textContent = 'Link de Rastreio';
 
     // Inclui os valores na linha do cabeçalho
     row_header.appendChild(id);
+    row_header.appendChild(invoice);
+    row_header.appendChild(document_number);
     row_header.appendChild(url);
 
     table.appendChild(row_header);
@@ -46,14 +52,20 @@
           if (!data.variations || data.variations.length === 0) {
             const row = document.createElement('tr');
             const id_cell = document.createElement('td');
+            const invoice_cell = document.createElement('td');
+            const document_number_cell = document.createElement('td');
             const link_cell = document.createElement('td');
 
 
             id_cell.textContent = data.items[0].id.orderNumber;
+            invoice_cell.textContent = data.items[0].orderDetail.invoice.number;
+            document_number_cell.textContent = data.items[0].orderDetail.invoice.registrationNumber;
             link_cell.textContent = data.items[0].originalTracking.link;
 
 
             row.appendChild(id_cell);
+            row.appendChild(invoice_cell);
+            row.appendChild(document_number_cell);
             row.appendChild(link_cell);
 
             table.appendChild(row);
@@ -66,7 +78,6 @@
           document.body.appendChild(root_categories_select);
         });
     }
-
 
 
     document.getElementById("links_list_button").addEventListener('click', event => {

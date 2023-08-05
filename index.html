@@ -1,116 +1,87 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Single File Projects</title>
-<style>
-body {
-  font-family: "Lato", sans-serif;
-}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Single File Projects</title>
 
-/* Fixed sidenav, full height */
-.sidenav {
-  height: 100%;
-  width: 400px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-/* Style the sidenav links and the dropdown button */
-.sidenav a, .dropdown-btn {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 20px;
-  color: #818181;
-  display: block;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  outline: none;
-}
-
-/* On mouse-over */
-.sidenav a:hover, .dropdown-btn:hover {
-  color: #f1f1f1;
-}
-
-/* Main content */
-.main {
-  margin-left: 400px; /* Same as the width of the sidenav */
-  font-size: 20px; /* Increased text to enable scrolling */
-  padding: 0px 10px;
-}
-
-/* Add an active class to the active dropdown button */
-.active {
-  background-color: green;
-  color: white;
-}
-
-/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
-.dropdown-container {
-  display: none;
-  background-color: #262626;
-  padding-left: 8px;
-}
-
-/* Optional: Style the caret down icon */
-.fa-caret-down {
-  float: right;
-  padding-right: 8px;
-}
-
-/* Some media queries for responsiveness */
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-</style>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
 
-<div class="sidenav">
-<!--   <a disabled href="/single_file_projects/buscador_de_categorias_amazon">buscador_de_categorias_amazon</a> -->
-  <a href="/single_file_projects/buscador_original_de_categorias_meli">buscador_de_categorias_meli</a>
-  <a href="/single_file_projects/buscador_de_infors_do_mlb">buscador_de_infors_do_mlb</a>
-  <a href="/single_file_projects/buscador_imagens_do_mlb">buscador_imagens_do_mlb</a>
-  <a href="/single_file_projects/formatador_de_pneus">formatador_de_pneus</a>
-<!--   <a disabled href="/single_file_projects/inserir_palavra">inserir_palavra</a> -->
-  <a href="/single_file_projects/links_netshoes">links_netshoes</a>
-  <a href="/single_file_projects/text_formatter_v1_dark_mode">text_formatter_v1_dark_mode</a>
-  <a href="/single_file_projects/text_formatter_v2_dark_mode">text_formatter_v2_dark_mode</a>
-</div>
+  <div class="sidenav">
+    <!--<a disabled href="./projects/buscador_de_categorias_amazon.html">buscador_de_categorias_amazon</a>-->
+    <a href="./projects/buscador_original_de_categorias_meli.html">Buscador de Categorias Meli</a>
+    <a href="./projects/buscador_de_infos_do_mlb.html">Buscador de Informações do MLB</a>
+    <a href="./projects/buscador_imagens_do_mlb.html">Extrator de imagens por MLB</a>
+    <a href="./projects/formatador_de_pneus.html">Leitor de códigos de Pneus</a>
+    <!--<a disabled href="./projects/inserir_palavra.html">inserir_palavra</a>-->
+    <a href="./projects/links_netshoes.html">Extrator de link Netshoes</a>
+    <!--<a disabled href="./projects/text_formatter_v1_dark_mode.html">Formatador de Textos v1</a>-->
+    <a href="./projects/text_formatter_v2_dark_mode.html">Formatador de Textos v2</a>
+  </div>
 
-<div class="main">
-  <h2>Single File Projects</h2>
-  <p>Simple projects made in HTML that can fit in one single file.</p>
-  <p>Developed for daily use cases</p>
-</div>
+  <div class="main">
+    <h2>Single File Projects</h2>
+    <p>Simple projects made in HTML that can fit in one single file.</p>
+    <p>Developed for daily use cases</p>
 
-<script>
-/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-var dropdown = document.getElementsByClassName("dropdown-btn");
-var i;
+    <div class="project_info">
+      <h3><a
+          href="https://victor-reghini.github.io/single_file_projects/projects/buscador_original_de_categorias_meli.html"
+          target="_blank" rel="noopener noreferrer">Buscador de Categorias Meli</a></h3>
+      <p>Busca os atributos permitidos para a categoria com base na API do Mercado Livre. Sua utilidade se aplica a
+        entender quais atributos são obrigatórios e quais outros são processados pelo marketplace, podendo assim
+        melhorar a qualidade do anúncio para uma maior visibilidade.</p>
+      <a href="https://victor-reghini.github.io/meli_category_browser/" target="_blank" rel="noopener noreferrer">modo
+        escuro e com algumas melhorias</a>
+      <img src="./images/buscador_original_de_categorias_meli.png">
+    </div>
 
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
-    } else {
-      dropdownContent.style.display = "block";
-    }
-  });
-}
-</script>
+
+    <div class="project_info">
+      <h3><a href="https://victor-reghini.github.io/single_file_projects/projects/buscador_de_infos_do_mlb.html"
+          target="_blank" rel="noopener noreferrer">Buscador de Informações do MLB</a></h3>
+      <p>Busca os seguintes dados do anúncio: SKU (se existir), id da variação (se existir), título e valores de
+        variação.</p>
+      <img src="./images/buscador_de_infos_do_mlb.png">
+    </div>
+
+
+    <div class="project_info">
+      <h3><a href="https://victor-reghini.github.io/single_file_projects/projects/buscador_imagens_do_mlb.html"
+          target="_blank" rel="noopener noreferrer">Extrator de imagens por MLB</a></h3>
+      <p>Gets the publications image urls as well as it's SKU, variation id and variation values.</p>
+      <img src="./images/buscador_imagens_do_mlb.png">
+    </div>
+
+
+    <div class="project_info">
+      <h3><a href="https://victor-reghini.github.io/single_file_projects/projects/formatador_de_pneus.html"
+          target="_blank" rel="noopener noreferrer">Leitor de códigos de Pneus</a></h3>
+      <p>Lê títulos ou apenas códigos de pneus e extrai informações como Largura, Aspecto, Carga e Diâmetro.</p>
+      <img src="./images/formatador_de_pneus.png">
+    </div>
+
+
+    <div class="project_info">
+      <h3><a href="https://victor-reghini.github.io/single_file_projects/projects/links_netshoes.html" target="_blank"
+          rel="noopener noreferrer">Extrator de link Netshoes</a></h3>
+      <p>Extrai os links de rastreio originais juntamente dos ids dos pedidos.</p>
+      <img src="./images/links_netshoes.png">
+    </div>
+
+
+    <div class="project_info">
+      <h3><a href="https://victor-reghini.github.io/single_file_projects/projects/text_formatter_v2_dark_mode.html"
+          target="_blank" rel="noopener noreferrer">Formatador de Textos V2</a></h3>
+      <p>Concatena valores separador por linhas. Intuito inicial era a concatenação de vírgulas e aspas para CURLs e
+        consultas no banco de dados.</p>
+      <img src="./images/text_formatter_v2_dark_mode.png">
+    </div>
+  </div>
 
 </body>
-</html> 
+
+</html>
