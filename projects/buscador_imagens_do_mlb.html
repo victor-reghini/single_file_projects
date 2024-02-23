@@ -431,40 +431,32 @@
 
   <script>
     function downloadTable() {
-        // Seleciona a tabela
         const table = document.getElementById('tabela');
-        // Cria um elemento <a> para download
         const downloadLink = document.createElement('a');
-        // Gera o conteúdo da tabela como CSV
         const csvContent = generateCSV(table);
-        // Cria um objeto Blob com o conteúdo CSV
         const blob = new Blob([csvContent], { type: 'text/csv' });
-        // URL do arquivo Blob
         const url = URL.createObjectURL(blob);
-        // Define o atributo href do elemento <a> para o URL do arquivo Blob
         downloadLink.href = url;
-        // Define o atributo download para o nome do arquivo
         downloadLink.download = 'tabela.csv';
-        // Simula um clique no link para iniciar o download
         downloadLink.click();
-        // Libera a URL do arquivo Blob
         URL.revokeObjectURL(url);
     }
 
     function generateCSV(table) {
         let csv = [];
-        // Itera sobre as linhas da tabela
         for (let i = 0; i < table.rows.length; i++) {
             let row = [];
-            // Itera sobre as células de cada linha
             for (let j = 0; j < table.rows[i].cells.length; j++) {
-                // Adiciona o texto da célula ao array row
-                row.push(table.rows[i].cells[j].innerText);
+                let cell_text = table.rows[i].cells[j].innerText;
+                let next_cell_text = table.rows[i].cells[j+1].innerText;
+              
+                if ([4,6,8,10,12,14,16,18,20,22,24,26].contains(j)) {
+                    cell_text = '=image(' + cell_text + '; "' + next_cell_text + '";0)';
+                }
+                row.push(cell_text);
             }
-            // Junta as células com vírgulas e adiciona ao array csv
             csv.push(row.join(';'));
         }
-        // Junta as linhas com quebras de linha
         return csv.join('\n');
     }
   </script>
