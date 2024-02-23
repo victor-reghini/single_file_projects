@@ -10,6 +10,7 @@
     <textarea class="mlbs_input" type="text" placeholder="Cole aqui os mlbs separados por vírgulas ou por linhas"
       id="mlbs_list"></textarea>
     <input class="buttons" type="button" value="Buscar" id="mlbs_list_button">
+    <button class="buttons" type="button" style="margin-left: 4px;" onclick="downloadTable()">Download Tabela</button>
     <!-- <input class="buttons" type="button" value="Limpar" id="reload" onclick="{()=>window.location = '/'}"> -->
   </div>
 
@@ -20,6 +21,7 @@
 
     // Cria uma tabela no HTML
     const table = document.createElement('table');
+    table.id = 'tabela';
 
     // Cria o cabeçalho
     const row_header = document.createElement('tr');
@@ -39,7 +41,33 @@
     const image10 = document.createElement('th');
     const image11 = document.createElement('th');
     const image12 = document.createElement('th');
+    const image1_id = document.createElement('th');
+    const image2_id = document.createElement('th');
+    const image3_id = document.createElement('th');
+    const image4_id = document.createElement('th');
+    const image5_id = document.createElement('th');
+    const image6_id = document.createElement('th');
+    const image7_id = document.createElement('th');
+    const image8_id = document.createElement('th');
+    const image9_id = document.createElement('th');
+    const image10_id = document.createElement('th');
+    const image11_id = document.createElement('th');
+    const image12_id = document.createElement('th');
+    const base_images_object_header = document.createElement('th');
 
+    image1_id.className = 'hidden_cell';
+    image2_id.className = 'hidden_cell';
+    image3_id.className = 'hidden_cell';
+    image4_id.className = 'hidden_cell';
+    image5_id.className = 'hidden_cell';
+    image6_id.className = 'hidden_cell';
+    image7_id.className = 'hidden_cell';
+    image8_id.className = 'hidden_cell';
+    image9_id.className = 'hidden_cell';
+    image10_id.className = 'hidden_cell';
+    image11_id.className = 'hidden_cell';
+    image12_id.className = 'hidden_cell';
+    base_images_object_header.className = 'hidden_cell';
 
     // Preenche o cabeçalho
     mlb.textContent = 'MLB';
@@ -58,6 +86,7 @@
     image10.textContent = 'Imagem 10';
     image11.textContent = 'Imagem 11';
     image12.textContent = 'Imagem 12';
+    base_images_object_header.textContent = 'images_base_object';
 
     // Inclui os valores na linha do cabeçalho
     row_header.appendChild(mlb);
@@ -65,17 +94,30 @@
     row_header.appendChild(variation);
     row_header.appendChild(variation_values);
     row_header.appendChild(image1);
+    row_header.appendChild(image1_id);
     row_header.appendChild(image2);
+    row_header.appendChild(image2_id);
     row_header.appendChild(image3);
+    row_header.appendChild(image3_id);
     row_header.appendChild(image4);
+    row_header.appendChild(image4_id);
     row_header.appendChild(image5);
+    row_header.appendChild(image5_id);
     row_header.appendChild(image6);
+    row_header.appendChild(image6_id);
     row_header.appendChild(image7);
+    row_header.appendChild(image7_id);
     row_header.appendChild(image8);
+    row_header.appendChild(image8_id);
     row_header.appendChild(image9);
+    row_header.appendChild(image9_id);
     row_header.appendChild(image10);
+    row_header.appendChild(image10_id);
     row_header.appendChild(image11);
+    row_header.appendChild(image11_id);
     row_header.appendChild(image12);
+    row_header.appendChild(image12_id);
+    row_header.appendChild(base_images_object_header);
 
     table.appendChild(row_header);
 
@@ -98,8 +140,30 @@
           const seller_sku = attributes ? attributes['SELLER_SKU'] || ' - ' : ' - ';
 
           const images = data.pictures.reduce((acc, curr, index) => {
-            return [...acc, curr.url];
+            return [...acc, curr.secure_url || curr.url];
           }, []);
+
+          const images_ids = data.pictures.reduce((acc, curr, index) => {
+            return [...acc, curr.id];
+          }, []);
+
+          const item_images_data = data.pictures.reduce((acc, curr, index) => {
+            return [...acc, {id: curr.id, url: curr.secure_url || curr.url}];
+          }, []);
+
+          let item_variations_images_data = [];
+
+          if (data.variations && data.variations.length > 0) {
+            item_variations_images_data = data.variations.reduce((acc, curr, index) => {
+              return [...acc, {id: curr.id, picture_ids: curr.picture_ids}];
+            }, []);
+          }
+
+          const images_base_object_data = {
+            item_id: mlb,
+            pictures: item_images_data,
+            variations: item_variations_images_data
+          };
 
           // Caso nao haja variacao
           if (!data.variations || data.variations.length === 0) {
@@ -109,18 +173,44 @@
             const variation_cell = document.createElement('td');
             const variation_values_cell = document.createElement('td');
             const image_cell_1 = document.createElement('td');
+            const image_id_cell_1 = document.createElement('td');
             const image_cell_2 = document.createElement('td');
+            const image_id_cell_2 = document.createElement('td');
             const image_cell_3 = document.createElement('td');
+            const image_id_cell_3 = document.createElement('td');
             const image_cell_4 = document.createElement('td');
+            const image_id_cell_4 = document.createElement('td');
             const image_cell_5 = document.createElement('td');
+            const image_id_cell_5 = document.createElement('td');
             const image_cell_6 = document.createElement('td');
+            const image_id_cell_6 = document.createElement('td');
             const image_cell_7 = document.createElement('td');
+            const image_id_cell_7 = document.createElement('td');
             const image_cell_8 = document.createElement('td');
+            const image_id_cell_8 = document.createElement('td');
             const image_cell_9 = document.createElement('td');
+            const image_id_cell_9 = document.createElement('td');
             const image_cell_10 = document.createElement('td');
+            const image_id_cell_10 = document.createElement('td');
             const image_cell_11 = document.createElement('td');
+            const image_id_cell_11 = document.createElement('td');
             const image_cell_12 = document.createElement('td');
+            const image_id_cell_12 = document.createElement('td');
+            const base_images_object = document.createElement('td');
 
+            image_id_cell_1.className = 'hidden_cell';
+            image_id_cell_2.className = 'hidden_cell';
+            image_id_cell_3.className = 'hidden_cell';
+            image_id_cell_4.className = 'hidden_cell';
+            image_id_cell_5.className = 'hidden_cell';
+            image_id_cell_6.className = 'hidden_cell';
+            image_id_cell_7.className = 'hidden_cell';
+            image_id_cell_8.className = 'hidden_cell';
+            image_id_cell_9.className = 'hidden_cell';
+            image_id_cell_10.className = 'hidden_cell';
+            image_id_cell_11.className = 'hidden_cell';
+            image_id_cell_12.className = 'hidden_cell';
+            base_images_object.className = 'hidden_cell';
 
             mlb_cell.textContent = data.id;
             sku_cell.textContent = seller_sku;
@@ -139,23 +229,50 @@
             image_cell_11.textContent = images[10];
             image_cell_12.textContent = images[11];
 
+            image_id_cell_1.textContent = images_ids[0];
+            image_id_cell_2.textContent = images_ids[1];
+            image_id_cell_3.textContent = images_ids[2];
+            image_id_cell_4.textContent = images_ids[3];
+            image_id_cell_5.textContent = images_ids[4];
+            image_id_cell_6.textContent = images_ids[5];
+            image_id_cell_7.textContent = images_ids[6];
+            image_id_cell_8.textContent = images_ids[7];
+            image_id_cell_9.textContent = images_ids[8];
+            image_id_cell_10.textContent = images_ids[9];
+            image_id_cell_11.textContent = images_ids[10];
+            image_id_cell_12.textContent = images_ids[11];
+
+            base_images_object.textContent = '"' + JSON.stringify(images_base_object_data) + '"';
 
             row.appendChild(mlb_cell);
             row.appendChild(sku_cell);
             row.appendChild(variation_cell);
             row.appendChild(variation_values_cell);
             row.appendChild(image_cell_1);
+            row.appendChild(image_id_cell_1);
             row.appendChild(image_cell_2);
+            row.appendChild(image_id_cell_2);
             row.appendChild(image_cell_3);
+            row.appendChild(image_id_cell_3);
             row.appendChild(image_cell_4);
+            row.appendChild(image_id_cell_4);
             row.appendChild(image_cell_5);
+            row.appendChild(image_id_cell_5);
             row.appendChild(image_cell_6);
+            row.appendChild(image_id_cell_6);
             row.appendChild(image_cell_7);
+            row.appendChild(image_id_cell_7);
             row.appendChild(image_cell_8);
+            row.appendChild(image_id_cell_8);
             row.appendChild(image_cell_9);
+            row.appendChild(image_id_cell_9);
             row.appendChild(image_cell_10);
+            row.appendChild(image_id_cell_10);
             row.appendChild(image_cell_11);
+            row.appendChild(image_id_cell_11);
             row.appendChild(image_cell_12);
+            row.appendChild(image_id_cell_12);
+            row.appendChild(base_images_object);
 
             table.appendChild(row);
 
@@ -181,6 +298,33 @@
               const image_cell_10 = document.createElement('td');
               const image_cell_11 = document.createElement('td');
               const image_cell_12 = document.createElement('td');
+              const image_id_cell_1 = document.createElement('td');
+              const image_id_cell_2 = document.createElement('td');
+              const image_id_cell_3 = document.createElement('td');
+              const image_id_cell_4 = document.createElement('td');
+              const image_id_cell_5 = document.createElement('td');
+              const image_id_cell_6 = document.createElement('td');
+              const image_id_cell_7 = document.createElement('td');
+              const image_id_cell_8 = document.createElement('td');
+              const image_id_cell_9 = document.createElement('td');
+              const image_id_cell_10 = document.createElement('td');
+              const image_id_cell_11 = document.createElement('td');
+              const image_id_cell_12 = document.createElement('td');
+              const base_images_object = document.createElement('td');
+
+              image_id_cell_1.className = 'hidden_cell';
+              image_id_cell_2.className = 'hidden_cell';
+              image_id_cell_3.className = 'hidden_cell';
+              image_id_cell_4.className = 'hidden_cell';
+              image_id_cell_5.className = 'hidden_cell';
+              image_id_cell_6.className = 'hidden_cell';
+              image_id_cell_7.className = 'hidden_cell';
+              image_id_cell_8.className = 'hidden_cell';
+              image_id_cell_9.className = 'hidden_cell';
+              image_id_cell_10.className = 'hidden_cell';
+              image_id_cell_11.className = 'hidden_cell';
+              image_id_cell_12.className = 'hidden_cell';
+              base_images_object.className = 'hidden_cell';
 
               const attribute_combinations = variation.attribute_combinations.reduce((acc, curr, index) => {
                 return { ...acc, [curr.id]: curr.value_name };
@@ -216,23 +360,50 @@
               image_cell_10.textContent = images[9];
               image_cell_11.textContent = images[10];
               image_cell_12.textContent = images[11];
+              image_id_cell_1.textContent = images_ids[0];
+              image_id_cell_2.textContent = images_ids[1];
+              image_id_cell_3.textContent = images_ids[2];
+              image_id_cell_4.textContent = images_ids[3];
+              image_id_cell_5.textContent = images_ids[4];
+              image_id_cell_6.textContent = images_ids[5];
+              image_id_cell_7.textContent = images_ids[6];
+              image_id_cell_8.textContent = images_ids[7];
+              image_id_cell_9.textContent = images_ids[8];
+              image_id_cell_10.textContent = images_ids[9];
+              image_id_cell_11.textContent = images_ids[10];
+              image_id_cell_12.textContent = images_ids[11];
+
+              base_images_object.textContent = '"' + JSON.stringify(images_base_object_data) + '"';
 
               row.appendChild(mlb_cell);
               row.appendChild(sku_cell);
               row.appendChild(variation_cell);
               row.appendChild(variation_values_cell);
               row.appendChild(image_cell_1);
+              row.appendChild(image_id_cell_1);
               row.appendChild(image_cell_2);
+              row.appendChild(image_id_cell_2);
               row.appendChild(image_cell_3);
+              row.appendChild(image_id_cell_3);
               row.appendChild(image_cell_4);
+              row.appendChild(image_id_cell_4);
               row.appendChild(image_cell_5);
+              row.appendChild(image_id_cell_5);
               row.appendChild(image_cell_6);
+              row.appendChild(image_id_cell_6);
               row.appendChild(image_cell_7);
+              row.appendChild(image_id_cell_7);
               row.appendChild(image_cell_8);
+              row.appendChild(image_id_cell_8);
               row.appendChild(image_cell_9);
+              row.appendChild(image_id_cell_9);
               row.appendChild(image_cell_10);
+              row.appendChild(image_id_cell_10);
               row.appendChild(image_cell_11);
+              row.appendChild(image_id_cell_11);
               row.appendChild(image_cell_12);
+              row.appendChild(image_id_cell_12);
+              row.appendChild(base_images_object);
 
               table.appendChild(row);
 
@@ -257,6 +428,46 @@
     // Adiciona a tabela no HTML
     document.body.appendChild(table);
   </script>
+
+  <script>
+    function downloadTable() {
+        // Seleciona a tabela
+        const table = document.getElementById('tabela');
+        // Cria um elemento <a> para download
+        const downloadLink = document.createElement('a');
+        // Gera o conteúdo da tabela como CSV
+        const csvContent = generateCSV(table);
+        // Cria um objeto Blob com o conteúdo CSV
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        // URL do arquivo Blob
+        const url = URL.createObjectURL(blob);
+        // Define o atributo href do elemento <a> para o URL do arquivo Blob
+        downloadLink.href = url;
+        // Define o atributo download para o nome do arquivo
+        downloadLink.download = 'tabela.csv';
+        // Simula um clique no link para iniciar o download
+        downloadLink.click();
+        // Libera a URL do arquivo Blob
+        URL.revokeObjectURL(url);
+    }
+
+    function generateCSV(table) {
+        let csv = [];
+        // Itera sobre as linhas da tabela
+        for (let i = 0; i < table.rows.length; i++) {
+            let row = [];
+            // Itera sobre as células de cada linha
+            for (let j = 0; j < table.rows[i].cells.length; j++) {
+                // Adiciona o texto da célula ao array row
+                row.push(table.rows[i].cells[j].innerText);
+            }
+            // Junta as células com vírgulas e adiciona ao array csv
+            csv.push(row.join(';'));
+        }
+        // Junta as linhas com quebras de linha
+        return csv.join('\n');
+    }
+  </script>
 </body>
 <style>
   :root {
@@ -278,6 +489,10 @@
     color: #ddd;
     background-color: #0F1111;
     padding: 4px 8px;
+  }
+  
+  .hidden_cell {
+    display: none;
   }
 
   tr:nth-child(even) {
