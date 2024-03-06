@@ -1,0 +1,219 @@
+<html>
+<title>Buscador de Usuários</title>
+
+<body>
+  <h1>Buscador de Informações Básicas da conta do Meli</h1>
+  <p class="subtitle">developed by Bigode</p>
+  </br>
+
+  <div class="container">
+    <textarea class="ids_input" type="text" placeholder="Cole aqui os seller_ids separados por vírgula"
+      id="seller_ids_list"></textarea>
+    <input class="buttons" type="button" value="Buscar" id="items_list_button">
+  </div>
+
+  <p class="subtitle2">Para limpar a listagem é necessário recarregar a página</p>
+
+  <script>
+    const url = 'https://api.mercadolibre.com/users/';
+
+    // Cria uma tabela no HTML
+    const table = document.createElement('table');
+
+    // Cria o cabeçalho
+    const row_header = document.createElement('tr');
+    const id = document.createElement('th');
+    const account_name = document.createElement('th');
+    const country = document.createElement('th');
+    const reputation = document.createElement('th');
+    const account_status = document.createElement('th');
+
+    // Preenche o cabeçalho
+    id.textContent = 'Seller Id';
+    account_name.textContent = 'Nome da Conta';
+    country.textContent = 'País';
+    reputation.textContent = 'Reputação';
+    account_status.textContent = 'Status';
+
+    // Inclui os valores na linha do cabeçalho
+    row_header.appendChild(id);
+    row_header.appendChild(account_name);
+    row_header.appendChild(country);
+    row_header.appendChild(reputation);
+    row_header.appendChild(account_status);
+
+    table.appendChild(row_header);
+
+    function fetchAndFill(seller_id) {
+      fetch(url + seller_id, {
+        method: 'GET'
+      })
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+            const row = document.createElement('tr');
+            const id_cell = document.createElement('td');
+            const name_cell = document.createElement('td');
+            const country_cell = document.createElement('td');
+            const reputation_cell = document.createElement('td');
+            const status_cell = document.createElement('td');
+
+            id_cell.textContent = data.id;
+            name_cell.textContent = data.nickname || ' - ';
+            country_cell.textContent = data.country_id || ' - ';
+            reputation_cell.textContent = data.seller_reputation?.level_id || ' - ';
+            status_cell.textContent = data.status?.site_status || ' - ';
+
+
+            row.appendChild(id_cell);
+            row.appendChild(name_cell);
+            row.appendChild(country_cell);
+            row.appendChild(reputation_cell);
+            row.appendChild(status_cell);
+
+            table.appendChild(row);
+
+            document.body.appendChild(table);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+
+
+    document.getElementById("items_list_button").addEventListener('click', event => {
+      const input_value = document.getElementById("seller_ids_list").value
+      let ids_list = input_value.includes(',') ? input_value.split(',') : input_value.split('\n');
+
+      ids_list.forEach(seller => fetchAndFill(seller));
+    });
+
+    // Adiciona a tabela no HTML
+    document.body.appendChild(table);
+  </script>
+</body>
+<style>
+  :root {
+    --grey: #8f8f8f;
+    --red: red;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    align-self: center
+  }
+
+  th {
+    color: #ddd;
+    background-color: #0F1111;
+    padding: 4px 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #a4dcf4;
+  }
+
+  tr:hover {
+    background-color: #77caee;
+  }
+
+  .styled-table th,
+  td {
+    padding: 4px 8px;
+  }
+
+  a {
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  a:link {
+    color: #ffba50;
+  }
+
+  a:hover {
+    color: #ff8100;
+  }
+
+  h1 {
+    color: rgb(102, 102, 102);
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 10px;
+    text-align: center;
+    margin-top: -15px;
+    color: var(--grey);
+  }
+
+  .subtitle2 {
+    font-size: 12px;
+    text-align: center;
+    color: var(--grey);
+  }
+
+  .container {
+    display: flex;
+  }
+
+  .ids_input {
+    resize: vertical;
+    background-color: #f5f7ff9f;
+    border-radius: 3px;
+    height: 15vh;
+    width: 80vw;
+    margin-right: 4px;
+  }
+
+  .buttons {
+    background-color: #699ee4;
+    border-width: 0px;
+    border-radius: 3px;
+    padding: 4px 6px;
+    box-shadow: 1px 1px #000099;
+    align-self: self-start;
+  }
+
+  .buttons:hover {
+    animation: hover_button 500ms forwards;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes hover_button {
+    0% {
+      box-shadow: 0px 0px
+    }
+
+    100% {
+      box-shadow: 2px 2px #000099
+    }
+  }
+
+  .buttons:focus {
+    box-shadow: 2px 2px #000099;
+    animation: focus_button 250ms alternate;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes focus_button {
+    0% {
+      background-color: var(--blue);
+      box-shadow: 2px 2px #000099;
+    }
+
+    100% {
+      background-color: #5576a1;
+      box-shadow: 0px 0px;
+    }
+  }
+</style>
+
+</html>
