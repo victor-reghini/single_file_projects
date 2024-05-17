@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <title>Orders formatter</title>
+  <title>Concatenador</title>
   <body>
 
-  <h1>Multiple Orders formatter</h1>
+  <h1>Concatenador</h1>
   <p class="subtitle">developed by Bigode</p>
 
 
   <div class="main">
     <div class="format_input">
-      <p><label for="orders">Insira os Pedidos:</label></p>
-      <textarea id="orders" name="orders" rows="5" cols="50" placeholder="Insira os pedidos separados por linha"></textarea>
+      <p><label for="orders">Insira os Códigos:</label></p>
+      <textarea id="orders" name="orders" rows="5" cols="50" placeholder="Insira os códigos separados por linha"></textarea>
     </div>
 
     <div class="format_button">
       <input class="buttons" type="button" value="Limpar Campos" id="clear">
-      <input class="buttons" type="button" value="Formatar" id="format">
+      <input class="buttons" type="button" value="Concatenar" id="format">
       <!-- <input class="buttons" type="button" value="Formatar e Limpar" id="format_and_clean" disabled> -->
       <input class="buttons" type="button" value="Copiar Resultado" id="copy">
       <input class="separator" type="text" id="separator" placeholder="Separador ex: , ou ',' ">
@@ -62,8 +62,8 @@
     </script>
 
     <div class="format_input">
-      <p><label for="formatted_orders">Pedidos Formatados:</label></p>
-      <textarea id="formatted_orders" name="formatted_orders" rows="5" cols="50" readonly placeholder='Clique em "Formatar" para gerar o texto formatado'></textarea>
+      <p><label for="formatted_orders">Códigos concatenados:</label></p>
+      <textarea id="formatted_orders" name="formatted_orders" rows="5" cols="50" readonly placeholder='Clique em "Concatenar" para gerar o texto formatado'></textarea>
     </div>
 
   </div>

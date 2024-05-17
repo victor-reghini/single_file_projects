@@ -10,6 +10,7 @@
     <textarea class="mlbs_input" type="text" placeholder="Cole aqui os mlbs separados por vírgula"
       id="mlbs_list"></textarea>
     <input class="buttons" type="button" value="Buscar" id="mlbs_list_button">
+    <button class="buttons" type="button" style="margin-left: 4px;" onclick="downloadTable()">Download Tabela</button>
     <!-- <input class="buttons" type="button" value="Limpar" id="reload" onclick="{()=>window.location = '/'}"> -->
   </div>
 
@@ -20,6 +21,7 @@
 
     // Cria uma tabela no HTML
     const table = document.createElement('table');
+    table.id = 'tabela';
 
     // Cria o cabeçalho
     const row_header = document.createElement('tr');
@@ -153,6 +155,32 @@
 
     // Adiciona a tabela no HTML
     document.body.appendChild(table);
+  </script>
+
+  <script>
+    function downloadTable() {
+        const table = document.getElementById('tabela');
+        const downloadLink = document.createElement('a');
+        const csvContent = generateCSV(table);
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = 'informacoes_sobre_o_mlb.csv';
+        downloadLink.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function generateCSV(table) {
+        let csv = [];
+        for (let i = 0; i < table.rows.length; i++) {
+            let row = [];
+            for (let j = 0; j < table.rows[i].cells.length; j++) {
+                row.push(table.rows[i].cells[j].innerText);
+            }
+            csv.push(row.join(';'));
+        }
+        return csv.join('\n');
+    }
   </script>
 </body>
 <style>

@@ -10,6 +10,9 @@ The best ones are: <br>
 - [Text Formatter](https://victor-reghini.github.io/single_file_projects/projects/text_formatter_v2_dark_mode)
 -- Formats text by concatenating whatever you want. Uses new line as divider
 
+- [JSON Formatter](https://victor-reghini.github.io/single_file_projects/projects/json_formatter)
+-- Formmats the JSON input to a more readable format
+
 - [Meli Category Finder](https://victor-reghini.github.io/single_file_projects/projects/buscador_original_de_categorias_meli)
 -- Gets the category attributes from Mercado Livre API, to get witch attributes are obrigatory for publication and also to improve the publications quality and details
 
