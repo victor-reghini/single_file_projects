@@ -16,12 +16,14 @@
       <input class="buttons" type="button" value="Format" id="format">
       <input class="buttons" type="button" value="Prettify" id="prettify">
       <input class="buttons" type="button" value="Minify" id="minify">
+      <input class="buttons" type="button" value="Expand" id="expand">
     </div>
 
     <script>
         let formatButton = document.getElementById("format");
         let prettifyButton = document.getElementById("prettify");
         let minifyButton = document.getElementById("minify");
+        let expandButton = document.getElementById("expand");
 
         formatButton.addEventListener('click', event => {
             let inputField = document.getElementById("input_field");
@@ -52,9 +54,24 @@
             
             outputField.innerHTML = formatted_text;
         });
+
+        expandButton.addEventListener('click', event => {
+            let outputFieldDiv = document.getElementById("output_field_div");
+
+            if (outputFieldDiv.classList.contains('expanded_output')){
+              outputFieldDiv.classList.remove("expanded_output");
+              outputFieldDiv.classList.add("format_output");
+              expandButton.value = "Expand";
+            } else {
+              outputFieldDiv.classList.remove("format_output");
+              outputFieldDiv.classList.add("expanded_output");
+              expandButton.value = "Reset";
+            }
+        });
+        
     </script>
 
-    <div class="format_output">
+    <div class="format_output" id="output_field_div">
       <textarea id="output_field" name="output_field"></textarea>
     </div>
 
@@ -172,6 +189,11 @@
   .format_output {
     display: block;
     width: 100%;
+    padding: 10px;
+  }
+  .expanded_output {
+    display: block;
+    width: 600%;
     padding: 10px;
   }
 
