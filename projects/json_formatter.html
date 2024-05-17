@@ -8,7 +8,7 @@
 
 
   <div class="main">
-    <div class="format_input">
+    <div class="format_input" id="input_field_div">
       <textarea id="input_field" name="input_field"></textarea>
     </div>
 
@@ -56,22 +56,22 @@
         });
 
         expandButton.addEventListener('click', event => {
-            let outputFieldDiv = document.getElementById("output_field_div");
+            let inputFieldDiv = document.getElementById("input_field_div");
 
-            if (outputFieldDiv.classList.contains('expanded_output')){
-              outputFieldDiv.classList.remove("expanded_output");
-              outputFieldDiv.classList.add("format_output");
+            if (inputFieldDiv.classList.contains('colapsed_input')){
+              inputFieldDiv.classList.remove("colapsed_input");
+              inputFieldDiv.classList.add("format_input");
               expandButton.value = "Expand";
             } else {
-              outputFieldDiv.classList.remove("format_output");
-              outputFieldDiv.classList.add("expanded_output");
+              inputFieldDiv.classList.remove("format_input");
+              inputFieldDiv.classList.add("colapsed_input");
               expandButton.value = "Reset";
             }
         });
         
     </script>
 
-    <div class="format_output" id="output_field_div">
+    <div class="format_output">
       <textarea id="output_field" name="output_field"></textarea>
     </div>
 
@@ -191,10 +191,8 @@
     width: 100%;
     padding: 10px;
   }
-  .expanded_output {
-    display: block;
-    width: 600%;
-    padding: 10px;
+  .colapsed_input {
+    display: none;
   }
 
 </style>
