@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <title>Convert to Unicode</title>
+  <body>
+
+  <h1>Converter</h1>
+  <p class="subtitle">developed by Bigode</p>
+
+
+  <div class="main">
+    <div class="format_input">
+      <p><label for="original_text">Insira o texto:</label></p>
+      <textarea id="original_text" name="original_text" rows="5" cols="50" placeholder="Insira o texto"></textarea>
+    </div>
+
+    <div class="format_button">
+      <input class="buttons" type="button" value="Limpar Campos" id="clear">
+      <input class="buttons" type="button" value="Formatar" id="format">
+      <input class="buttons" type="button" value="Copiar Resultado" id="copy">
+    </div>
+
+    <script>
+      document.getElementById("format").addEventListener('click', event => {
+        const original_text = document.getElementById("original_text").value;
+
+        let formatted = original_text.split('').map(caractere => replace(caractere)).join('');
+
+        document.getElementById("formatted_text").innerHTML = formatted;
+      });
+
+      document.getElementById('copy').addEventListener('click', event => {
+        navigator.clipboard.writeText(document.getElementById('formatted_text').value)
+      });
+
+      document.getElementById('clear').addEventListener('click', event => {
+        document.getElementById("formatted_text").innerHTML = '';
+        document.getElementById("original_text").value = '';
+      });
+
+      function replace(caractere) {
+        const translator = {"á": `u00e1`,"à": "u00e0","â": "u00e2","ã": "u00e3","ä": "u00e4",
+        "Á": "u00c1","À": "u00c0","Â": "u00c2","Ã": "u00c3","Ä": "u00c4","é": "u00e9",
+        "è": "u00e8","ê": "u00ea","ê": "u00ea","É": "u00c9","È": "u00c8","Ê": "u00ca",
+        "Ë": "u00cb","í": "u00ed","ì": "u00ec","î": "u00ee","ï": "u00ef","Í": "u00cd",
+        "Ì": "u00cc","Î": "u00ce","Ï": "u00cf","ó": "u00f3","ò": "u00f2","ô": "u00f4",
+        "õ": "u00f5","ö": "u00f6","Ó": "u00d3","Ò": "u00d2","Ô": "u00d4","Õ": "u00d5",
+        "Ö": "u00d6","ú": "u00fa","ù": "u00f9","û": "u00fb","ü": "u00fc","Ú": "u00da",
+        "Ù": "u00d9","Û": "u00db","ç": "u00e7","Ç": "u00c7","ñ": "u00f1","Ñ": "u00d1",
+        "&": "u0026","'": "u0027"};
+
+        return Object.keys(translator).includes(caractere) ? `\\` + translator[caractere] : caractere;
+      }
+    </script>
+
+    <div class="format_input">
+      <p><label for="formatted_text">Texto em Unicode:</label></p>
+      <textarea id="formatted_text" name="formatted_text" rows="5" cols="50" readonly placeholder='Clique em "Formatar" para gerar o texto formatado'></textarea>
+    </div>
+
+  </div>
+
+  </body>
+</html>
+
+<style>
+  :root {
+  --blue: #699ee4;
+  --grey: #8f8f8f;
+  }
+
+  * {
+    font-family: verdana;
+    background-color: #202020;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 4px #fff0c5;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background:#88bbff;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1666cf;
+    cursor: pointer;
+  }
+
+  /* body {
+    background-color: rgb(255, 228, 153);
+  } */
+
+  h1 {
+    color: rgb(102, 102, 102);
+    text-align: center;
+  }
+
+  .subtitle{
+    font-size: 10px;
+    text-align: center;
+    margin-top: -15px;
+    color: var(--grey);
+  }
+
+  .buttons{
+    background-color: var(--blue);
+    border-width: 0px;
+    border-radius: 3px;
+    padding: 4px 6px;
+    box-shadow: 1px 1px #000099;
+  }
+
+  .buttons:hover{
+    animation: hover_button 500ms forwards;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes hover_button {
+    0% {box-shadow: 0px 0px}
+    100% {box-shadow: 2px 2px #000099}
+  }
+
+  .buttons:focus{
+    box-shadow: 2px 2px #000099;
+    animation: focus_button 250ms alternate;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes focus_button {
+    0% {
+      background-color: var(--blue);
+      box-shadow: 2px 2px #000099;
+    }
+    100% {
+      background-color: #5576a1;
+      box-shadow: 0px 0px;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    background-color: #dcf8ff9f;
+    border-radius: 3px;
+    height: 30vh;
+    width: 60vw;
+  }
+
+  .main {
+    display: flex;
+    color:  var(--grey);
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .format_input {
+    display: block;
+  }
+  .format_button {
+    display: block;
+	padding-top: 8px;
+  }
+  .format_output {
+    display: block;
+  }
+
+  .separator {
+    border-color: var(--grey);
+    border-width: 2px;
+    border-radius: 3px;
+    padding: 4px 6px;
+    color: var(--grey);
+  }
+</style>
