@@ -18,14 +18,19 @@
       <input class="buttons" type="button" value="Concatenar" id="format">
       <!-- <input class="buttons" type="button" value="Formatar e Limpar" id="format_and_clean" disabled> -->
       <input class="buttons" type="button" value="Copiar Resultado" id="copy">
-      <input class="separator" type="text" id="separator" placeholder="Separador ex: , ou ',' ">
+      <input class="separator" type="text" id="separator" placeholder="Separador ex: , ou ',' ou ainda '{code}',">
     </div>
 
     <script>
       //Formatter - first splits the string and then concats "," adding " to both beginning and end of the string
       document.getElementById("format").addEventListener('click', event => {
         let separator = document.getElementById("separator").value || `','`;
-        let formatted = separator.substr(0, 1) + document.getElementById("orders").value.split('\n').join(separator) + separator.substr(-1, 1);
+        let formatted;
+        if (separator.includes("{code}")) {
+          formatted = document.getElementById("orders").value.split('\n').map(code => separator.replace("{code}", code)).join(' ');
+        } else {
+          formatted = separator.substr(0, 1) + document.getElementById("orders").value.split('\n').join(separator) + separator.substr(-1, 1);
+        }
         document.getElementById("formatted_orders").innerHTML = formatted;
       });
 
@@ -184,5 +189,6 @@
     border-radius: 3px;
     padding: 4px 6px;
     color: var(--grey);
+    width: 18vw;
   }
 </style>
