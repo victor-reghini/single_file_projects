@@ -52,14 +52,17 @@
 
         expandButton.addEventListener('click', event => {
             let inputFieldDiv = document.getElementById("input_field_div");
+            let outputFieldDiv = document.getElementById("output_field_div");
 
             if (inputFieldDiv.classList.contains('colapsed_input')){
               inputFieldDiv.classList.remove("colapsed_input");
               inputFieldDiv.classList.add("format_input");
+              outputFieldDiv.classList.remove("expanded_output");
               expandButton.value = "Expand";
             } else {
               inputFieldDiv.classList.remove("format_input");
               inputFieldDiv.classList.add("colapsed_input");
+              outputFieldDiv.classList.add("expanded_output");
               expandButton.value = "Reset";
             }
         });
@@ -92,7 +95,7 @@
         
     </script>
 
-    <div class="format_output">
+    <div class="format_output" id="output_field_div">
       <pre lang="xml" id="output_field" name="output_field"></pre>
     </div>
 
@@ -224,6 +227,12 @@
     width: 100%;
     padding: 10px;
     max-width: 45svw;
+  }
+  .expanded_output {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    max-width: 95svw;
   }
   .colapsed_input {
     display: none;
