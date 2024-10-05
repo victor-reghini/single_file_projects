@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JSON Formatter (beta)</title>
-    <link rel="icon" type="image/png" href="/images/json_icon.png">
+    <title>XML Formatter (beta)</title>
+    <link rel="icon" type="image/png" href="/images/xml_icon.png">
   </head>
   <body>
 
-  <h1>JSON Formatter</h1>
+  <h1>XML Formatter</h1>
   <p class="subtitle">developed by Bigode</p>
 
 
@@ -16,36 +16,27 @@
     </div>
 
     <div class="format_button">
-      <input class="buttons" type="button" value="Format" id="format">
       <input class="buttons" type="button" value="Prettify" id="prettify">
       <input class="buttons" type="button" value="Minify" id="minify">
       <input class="buttons" type="button" value="Expand" id="expand">
+      <input class="buttons" type="button" value="Copy Result" id="copy">
     </div>
 
     <script>
-        let formatButton = document.getElementById("format");
         let prettifyButton = document.getElementById("prettify");
         let minifyButton = document.getElementById("minify");
         let expandButton = document.getElementById("expand");
-
-        formatButton.addEventListener('click', event => {
-            let inputField = document.getElementById("input_field");
-            let outputField = document.getElementById("output_field");
-
-            let initial_text = inputField.value;
-            let formatted_text = JSON.stringify(JSON.parse(initial_text), null, 4);
-            
-            outputField.innerHTML = formatted_text;
-        });
+        let copyButton = document.getElementById("copy");
 
         prettifyButton.addEventListener('click', event => {
             let inputField = document.getElementById("input_field");
             let outputField = document.getElementById("output_field");
 
             let initial_text = inputField.value;
-            let formatted_text = JSON.stringify(JSON.parse(initial_text), null, 2);
+            let formatted_text = prettifyXml(initial_text);
+            console.log(formatted_text);
             
-            outputField.innerHTML = formatted_text;
+            outputField.innerText = formatted_text;
         });
 
         minifyButton.addEventListener('click', event => {
@@ -53,9 +44,10 @@
             let outputField = document.getElementById("output_field");
 
             let initial_text = inputField.value;
-            let formatted_text = JSON.stringify(JSON.parse(initial_text));
+            let formatted_text = initial_text.replaceAll('\n','');
+            formatted_text = formatted_text.replaceAll('\t','');
             
-            outputField.innerHTML = formatted_text;
+            outputField.innerText = formatted_text;
         });
 
         expandButton.addEventListener('click', event => {
@@ -71,11 +63,37 @@
               expandButton.value = "Reset";
             }
         });
+
+        copyButton.addEventListener('click', event => {
+          navigator.clipboard.writeText(document.getElementById('output_field').innerText)
+        });
+
+         function prettifyXml(sourceXml) {
+            var xmlDoc = new DOMParser().parseFromString(sourceXml, 'application/xml');
+            var xsltDoc = new DOMParser().parseFromString([
+                '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">',
+                '<xsl:strip-space elements="*"/>',
+                '  <xsl:template match="para[content-style][not(text())]">',
+                '    <xsl:value-of select="normalize-space(.)"/>',
+                '  </xsl:template>',
+                '  <xsl:template match="node()|@*">',
+                '    <xsl:copy><xsl:apply-templates select="node()|@*"/></xsl:copy>',
+                '  </xsl:template>',
+                '  <xsl:output indent="yes"/>',
+                '</xsl:stylesheet>',
+            ].join('\n'), 'application/xml');
+
+            var xsltProcessor = new XSLTProcessor();    
+            xsltProcessor.importStylesheet(xsltDoc);
+            var resultDoc = xsltProcessor.transformToDocument(xmlDoc);
+            var resultXml = new XMLSerializer().serializeToString(resultDoc);
+            return resultXml;
+        };
         
     </script>
 
     <div class="format_output">
-      <textarea id="output_field" name="output_field"></textarea>
+      <pre lang="xml" id="output_field" name="output_field"></pre>
     </div>
 
   </div>
@@ -169,6 +187,18 @@
     width: 100%;
   }
 
+  pre {
+    resize: vertical;
+    color: #202020;
+    background-color: #dcf8ff9f;
+    border-radius: 3px;
+    height: calc(100vh - 80px);
+    width: 100%;
+    overflow-y: scroll;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
   .main {
     display: flex;
     flex-direction: row;
@@ -193,6 +223,7 @@
     display: block;
     width: 100%;
     padding: 10px;
+    max-width: 45svw;
   }
   .colapsed_input {
     display: none;
