@@ -13,6 +13,8 @@
     <button class="buttons" type="button" style="margin-left: 4px;" onclick="downloadTable()">Download Tabela</button>
     <!-- <input class="buttons" type="button" value="Limpar" id="reload" onclick="{()=>window.location = '/'}"> -->
   </div>
+  
+  <input class="input_token" type="text" value="Bearer APP_USR..." id="token">
 
   <p class="subtitle2">Para limpar a listagem é necessário recarregar a página</p>
 
@@ -48,9 +50,10 @@
 
     table.appendChild(row_header);
 
-    function fetchAndFill(mlb) {
+    function fetchAndFill(mlb, token) {
       fetch(url + mlb + '?include_attributes=all', {
-        method: 'GET'
+        method: 'GET',
+        authorization: 'Bearer ' + token
       })
         .then(response => {
           return response.json()
@@ -149,8 +152,10 @@
     document.getElementById("mlbs_list_button").addEventListener('click', event => {
       const input_value = document.getElementById("mlbs_list").value
       let mlbs_list = input_value.includes(',') ? input_value.split(',') : input_value.split('\n');
+      
+      const token = document.getElementById("token").value
 
-      mlbs_list.forEach(mlb => fetchAndFill(mlb));
+      mlbs_list.forEach(mlb => fetchAndFill(mlb, token));
     });
 
     // Adiciona a tabela no HTML
@@ -260,6 +265,11 @@
     height: 15vh;
     width: 80vw;
     margin-right: 4px;
+  }
+
+  .input_token {
+    background-color: #f5f7ff9f;
+    border-radius: 3px;
   }
 
   .buttons {
