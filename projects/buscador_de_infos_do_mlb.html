@@ -56,9 +56,12 @@
       if (!token.includes('Bearer ')) {
         token = `Bearer ${tokenParam}`;
       }
+
+      console.log(token);
       
       fetch(url + mlb + '?include_attributes=all', {
         method: 'GET',
+        headers: {
         'Authorization': token
       })
         .then(response => {
@@ -149,7 +152,6 @@
         })
         .catch(error => {
           console.error(error);
-          document.body.appendChild(root_categories_select);
         });
     }
 
@@ -278,6 +280,7 @@
     background-color: #f5f7ff9f;
     border-radius: 3px;
     width: 80vw;
+    margin-top: 4px;
   }
 
   .buttons {
