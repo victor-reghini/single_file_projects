@@ -60,10 +60,11 @@
       console.log(token);
       
       fetch(url + mlb + '?include_attributes=all', {
-        method: 'GET',
-        headers: {
-        'Authorization': token
-      })
+          method: 'GET',
+          headers: {
+            'Authorization': token
+          }
+        })
         .then(response => {
           return response.json()
         })
