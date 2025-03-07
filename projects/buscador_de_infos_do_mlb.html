@@ -51,6 +51,7 @@
     table.appendChild(row_header);
 
     function fetchAndFill(mlb, tokenParam) {
+      console.log(tokenParam);
       let token = tokenParam;
       if (!token.includes('Bearer ')) {
         token = `Bearer ${tokenParam}`;
@@ -158,7 +159,8 @@
       const input_value = document.getElementById("mlbs_list").value
       let mlbs_list = input_value.includes(',') ? input_value.split(',') : input_value.split('\n');
       
-      const token = document.getElementById("token").value
+      const token = document.getElementById("token").value;
+      console.log(token);
 
       mlbs_list.forEach(mlb => fetchAndFill(mlb, token));
     });
@@ -275,6 +277,7 @@
   .input_token {
     background-color: #f5f7ff9f;
     border-radius: 3px;
+    width: 80vw;
   }
 
   .buttons {
