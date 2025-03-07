@@ -50,10 +50,15 @@
 
     table.appendChild(row_header);
 
-    function fetchAndFill(mlb, token) {
+    function fetchAndFill(mlb, tokenParam) {
+      let token = tokenParam;
+      if (!token.includes('Bearer ')) {
+        token = `Bearer ${tokenParam}`;
+      }
+      
       fetch(url + mlb + '?include_attributes=all', {
         method: 'GET',
-        authorization: 'Bearer ' + token
+        'Authorization': token
       })
         .then(response => {
           return response.json()
